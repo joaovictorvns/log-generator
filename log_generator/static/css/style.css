@@ -1,0 +1,110 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        width: 95%;
+    }
+}
+
+form>* {
+    margin-bottom: 5px;
+}
+
+.form-level-and-message {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.form-level-and-message select,
+.form-level-and-message input {
+    padding: 5px;
+    font-size: 17px;
+}
+
+.form-level-and-message select {
+    flex: 1;
+}
+
+.form-level-and-message input {
+    flex: 2;
+}
+
+.form-extra-checkbox input {
+    transform: scale(1.5);
+    margin-right: 10px;
+}
+
+.cursor-position {
+    background: #f7f7f7;
+    border: 1px solid #ccc;
+    border-top: none;
+    color: gray;
+    font-size: 1;
+    font-family: monospace;
+    padding: 1px;
+    padding-left: 4px;
+
+}
+
+.form-reset-and-submit {
+    text-align: right;
+}
+
+.form-reset-and-submit input {
+    padding: 10px;
+    width: 120px;
+    font-size: 17px;
+    border: none;
+    border-radius: 2px;
+}
+
+.form-reset-and-submit input[type=reset] {
+    background: orange;
+}
+
+.form-reset-and-submit input[type=reset]:hover {
+    background: darkorange;
+}
+
+.form-reset-and-submit input[type=reset]:active {
+    background: #ffb11f;
+}
+
+.form-reset-and-submit input[type=submit] {
+    background: #00b3ff;
+}
+
+.form-reset-and-submit input[type=submit]:hover {
+    background: #008cc9;
+}
+
+.form-reset-and-submit input[type=submit]:active {
+    background: #1dbbff;
+}
+
+.form-status {
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px;
+}
+
+.CodeMirror {
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.CodeMirror-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
