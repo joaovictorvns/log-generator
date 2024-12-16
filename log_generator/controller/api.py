@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 
 @api_blueprint.route('/api', methods=['GET', 'POST'])
-def api():
+def api_route():
     """Handles the GET and POST requests for logging API.
 
     For GET requests:
@@ -33,9 +33,7 @@ def api():
     For POST requests:
         Logs a message at the specified log level. The request should contain
         a JSON body with the fields "level", "message", and optionally "extra".
-
-    Returns:
-        flask.Response: A JSON response indicating success or error.
+        It then returns a JSON response indicating success or error.
     """
     if request.method == 'GET':
         return handle_get_request()
@@ -48,13 +46,8 @@ def api():
 def handle_get_request():
     """Handles GET request for retrieving log level information.
 
-    This function fetches the current log level from the Flask application
-    configuration and returns it as a numeric value, along with the log level
-    name.
-
-    Returns:
-        flask.Response: A JSON response containing the log level name and
-        number.
+    This function gets the log level name and number from the Flask application
+    configuration and returns them in a JSON response.
     """
     levels = ('debug', 'info', 'warning', 'error', 'critical')
     log_level_name = current_app.config.LOG_LEVEL.lower()
@@ -73,13 +66,7 @@ def handle_post_request():
     This function processes the JSON body of the request to log a message with
     the specified log level. The request must include the fields "level",
     "message", and optionally "extra". If validation fails, an error message
-    is returned.
-
-    Args:
-        None
-
-    Returns:
-        flask.Response: A JSON response indicating success or failure.
+    is returned. It then returns a JSON response indicating success or error.
     """
     try:
         if not request.json:

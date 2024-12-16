@@ -18,7 +18,7 @@ from log_generator.controller.home import home_blueprint
 from log_generator.logging_config import setup_logging
 
 
-def create_app():
+def create_app() -> Flask:
     """Create and configure the Flask application.
 
     This function initializes a new Flask application, registers the necessary
