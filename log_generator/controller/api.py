@@ -13,18 +13,24 @@ required fields and data types.
 Attributes:
     api_blueprint (flask.Blueprint): The Flask Blueprint for the API routes.
     logger (logging.Logger): The logger instance used to log messages.
+Functions:
+    api_route: The route handler for the API endpoint.
+    handle_get_request: Handles the GET request for retrieving log level info.
+    handle_post_request: Handles the POST request for logging a message.
 """
 
 import logging
 
 from flask import Blueprint, current_app, jsonify, request
 
+from log_generator.controller.api_utils import ERROR_MESSAGES, SUCCESS_MESSAGE
+
 api_blueprint = Blueprint('api', __name__)
 logger = logging.getLogger(__name__)
 
 
 @api_blueprint.route('/api', methods=['GET', 'POST'])
-def api_route():
+def api_route():  # pylint: disable=inconsistent-return-statements
     """Handles the GET and POST requests for logging API.
 
     For GET requests:
@@ -40,7 +46,6 @@ def api_route():
 
     if request.method == 'POST':
         return handle_post_request()
-    return None
 
 
 def handle_get_request():
@@ -70,37 +75,33 @@ def handle_post_request():
     """
     try:
         if not request.json:
-            raise ValueError('JSON data is missing.')
+            raise ValueError(ERROR_MESSAGES[0])
 
         level = request.json.get('level')
         message = request.json.get('message')
         extra = request.json.get('extra')
 
         if level is None:
-            raise ValueError('The "level" field is required')
+            raise ValueError(ERROR_MESSAGES[1])
 
         if not isinstance(level, str):
-            raise ValueError('The "level" field must be a str.')
+            raise ValueError(ERROR_MESSAGES[2])
 
         if level not in {'debug', 'info', 'warning', 'error', 'critical'}:
-            raise ValueError(
-                f'Invalid log level: "{level}". '
-                'Valid values are: "debug", "info", "warning", '
-                '"error" and "critical"'
-            )
+            raise ValueError(ERROR_MESSAGES[3].format(level=level))
 
         if message is None:
-            raise ValueError('The "message" field is required')
+            raise ValueError(ERROR_MESSAGES[4])
 
         if not isinstance(message, str):
-            raise ValueError('The "message" field must be a str.')
+            raise ValueError(ERROR_MESSAGES[5])
 
         if extra is not None and not isinstance(extra, dict):
-            raise ValueError('The "extra" field must be a dict.')
+            raise ValueError(ERROR_MESSAGES[6])
 
         getattr(logger, level)(msg=message, extra=extra)
 
-        data = {'message': 'success', 'success': 'Log registered successfully'}
+        data = {'message': 'success', 'success': SUCCESS_MESSAGE}
         return jsonify(data), 200
     except (ValueError, KeyError) as err:
         logger.exception('Failed to log message.')

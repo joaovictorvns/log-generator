@@ -8,7 +8,7 @@ Attributes:
         page.
 
 Functions:
-    home: Renders the home page template.
+    home_route: Renders the home page template.
 """
 
 from flask import Blueprint, render_template
