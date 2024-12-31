@@ -45,6 +45,9 @@ async function onFormSubmit(event) {
 
 function onFormReset(event) {
     disableEditor();
+    const status = document.getElementById("status");
+    status.innerHTML = "";
+    editor.setValue("{\"key\": \"value\"}\n");
 }
 
 function disableEditor() {

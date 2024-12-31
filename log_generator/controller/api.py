@@ -104,6 +104,6 @@ def handle_post_request():
         data = {'message': 'success', 'success': SUCCESS_MESSAGE}
         return jsonify(data), 200
     except (ValueError, KeyError) as err:
-        logger.exception('Failed to log message.')
+        logger.exception('Failed to log message')
         data = {'message': 'error', 'error': str(err)}
         return jsonify(data), 400
