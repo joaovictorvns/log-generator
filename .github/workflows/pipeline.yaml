@@ -10,12 +10,14 @@ env:
   FLASK_LOG_LEVEL: ${{ vars.FLASK_LOG_LEVEL }}
   FLASK_LOG_HEADERS: ${{ vars.FLASK_LOG_HEADERS }}
 
-  FLASK_SELENIUM_BROWSERS: ${{ vars.FLASK_SELENIUM_BROWSERS }}
+  # FLASK_SELENIUM_BROWSERS: ${{ vars.FLASK_SELENIUM_BROWSERS }}
   FLASK_SELENIUM_HEADLESS: ${{ vars.FLASK_SELENIUM_HEADLESS }}
 
 jobs:
   Test:
     runs-on: ubuntu-latest
+    env:
+      FLASK_SELENIUM_BROWSERS: "chrome,firefox"
     steps:
       - name: Clone files from the repository
         uses: actions/checkout@v4
@@ -37,8 +39,8 @@ jobs:
       - name: Install Firefox browser
         uses: browser-actions/setup-firefox@v1
 
-      - name: Install Edge browser
-        uses: browser-actions/setup-edge@v1
+      # - name: Install Edge browser
+      #   uses: browser-actions/setup-edge@v1
 
       - name: Run tests
         run: poetry run task test

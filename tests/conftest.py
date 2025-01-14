@@ -83,14 +83,7 @@ def driver(request: pytest.FixtureRequest, browser: str):
     if not browser_config:
         raise ValueError(f'Unknown browser: {browser}')
 
-    if browser == 'egde':
-        service = \
-            browser_config['service'](
-                browser_config['manager'](version='131.0.2903.112').install()
-            )
-    else:
-        service = \
-            browser_config['service'](browser_config['manager']().install())
+    service = browser_config['service'](browser_config['manager']().install())
     options = browser_config['options']()
     if headless:
         options.add_argument('--headless')
