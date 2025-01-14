@@ -1,0 +1,27 @@
+name: Pipeline
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone files from the repository
+      - uses: actions/checkout@v4
+
+      - name: Install Python
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      
+      - name: Install Poetry
+      - run: pip install poetry
+
+      - name: Install project dependencies
+      - run: poetry install --without doc
+        
+      - name: Install the browsers (Chrome, Firefox and Edge)
+      - uses: browser-actions/setup-chrome@v1
+      - uses: browser-actions/setup-firefox@v1
+      - uses: browser-actions/setup-edge@v1
+
+      - name: Run tests
+      - run: poetry run task test

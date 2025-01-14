@@ -11,9 +11,23 @@ theme:
   highlightjs: true
   hljs_languages:
     - python
+  features:
+    - content.code.copy
 
 markdown_extensions:
   - attr_list
+  # syntax highlighting
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  # admonition
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
 
 extra_css:
   - css/extra.css
@@ -23,3 +37,21 @@ plugins:
       handlers:
         python:
           paths: [log_generator]
+
+nav:
+  - Home: 'index.md'
+  - Installation: 'installation.md'
+  - Configuration: 'configuration.md'
+  - How to use:
+      - RESTful API: 'how_to_use/restful_api.md'
+      - Web Page: 'how_to_use/web_page.md'
+  - App Factory: 'app_factory.md'
+  - Routes:
+      - Web UI: 'routes/ui.md'
+      - Web API: 'routes/api.md'
+  - Logging:
+      - Configuration: 'logging/config.md'
+      - Formatter: 'logging/formatter.md'
+      - Handler: 'logging/handler.md'
+  - References:
+      - Environment Variables: 'references/env_vars.md'

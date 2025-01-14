@@ -41,11 +41,26 @@ def api_route():  # pylint: disable=inconsistent-return-statements
         a JSON body with the fields "level", "message", and optionally "extra".
         It then returns a JSON response indicating success or error.
     """
-    if request.method == 'GET':
-        return handle_get_request()
+    match request.method:
+        case 'GET':
+            response = handle_get_request()
+        case 'POST':
+            response = handle_post_request()
 
-    if request.method == 'POST':
-        return handle_post_request()
+    if current_app.config.LOG_HEADERS:
+        extra = {
+            'client_ip': request.headers.get('X-Real-IP', request.remote_addr),
+            'protocol': request.headers.get('X-Forwarded-Proto', 'http'),
+            'http_method': request.method,
+            'request_url': request.url,
+            'user_agent': request.headers.get('User-Agent'),
+            'referer': request.headers.get('Referer'),
+            'host': request.headers.get('Host'),
+            'status_code': response[1],
+            'request_data': request.json if request.is_json else None,
+        }
+        logger.info('Proxy Headers', extra=extra)
+    return response
 
 
 def handle_get_request():
@@ -62,7 +77,7 @@ def handle_get_request():
         'log_level_number': levels.index(log_level_name) + 1,
     }
 
-    return jsonify(data)
+    return jsonify(data), 200
 
 
 def handle_post_request():
