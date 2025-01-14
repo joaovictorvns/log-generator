@@ -14,7 +14,7 @@ env:
   FLASK_SELENIUM_HEADLESS: ${{ vars.FLASK_SELENIUM_HEADLESS }}
 
 jobs:
-  Test:
+  Test-Linux:
     runs-on: ubuntu-latest
     env:
       FLASK_SELENIUM_BROWSERS: "chrome,firefox"
@@ -39,8 +39,35 @@ jobs:
       - name: Install Firefox browser
         uses: browser-actions/setup-firefox@v1
 
-      # - name: Install Edge browser
-      #   uses: browser-actions/setup-edge@v1
+      - name: Run tests
+        run: poetry run task test
+  Test-Windows:
+    runs-on: ubuntu-latest
+    env:
+      FLASK_SELENIUM_BROWSERS: "edge"
+    steps:
+      - name: Clone files from the repository
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Install project dependencies
+        run: poetry install --without doc
+
+      # - name: Install Chrome browser
+      #   uses: browser-actions/setup-chrome@v1
+
+      # - name: Install Firefox browser
+      #   uses: browser-actions/setup-firefox@v1
+
+      - name: Install Edge browser
+        uses: browser-actions/setup-edge@v1
 
       - name: Run tests
         run: poetry run task test
