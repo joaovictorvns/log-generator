@@ -1,5 +1,18 @@
 name: Pipeline
+
 on: [push]
+
+env:
+  FLASK_APP: ${{ vars.FLASK_APP }}
+  FLASK_DEBUG: ${{ vars.FLASK_DEBUG }}
+
+  FLASK_LOG_PATH: ${{ vars.FLASK_LOG_PATH }}
+  FLASK_LOG_LEVEL: ${{ vars.FLASK_LOG_LEVEL }}
+  FLASK_LOG_HEADERS: ${{ vars.FLASK_LOG_HEADERS }}
+
+  FLASK_SELENIUM_BROWSERS: ${{ vars.FLASK_SELENIUM_BROWSERS }}
+  FLASK_SELENIUM_HEADLESS: ${{ vars.FLASK_SELENIUM_HEADLESS }}
+
 jobs:
   Test:
     runs-on: ubuntu-latest
