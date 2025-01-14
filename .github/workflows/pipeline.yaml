@@ -60,14 +60,14 @@ jobs:
       - name: Install project dependencies
         run: poetry install --without doc
 
-      # - name: Install Chrome browser
-      #   uses: browser-actions/setup-chrome@v1
+      - name: Install Chrome browser
+        uses: browser-actions/setup-chrome@v1
 
-      # - name: Install Firefox browser
-      #   uses: browser-actions/setup-firefox@v1
+      - name: Install Firefox browser
+        uses: browser-actions/setup-firefox@v1
 
-      - name: Install Edge browser
-        uses: browser-actions/setup-edge@v1
+      # - name: Install Edge browser
+      #   uses: browser-actions/setup-edge@v1
 
       - name: Run tests
         run: poetry run task test
