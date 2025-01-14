@@ -91,6 +91,7 @@ def driver(request: pytest.FixtureRequest, browser: str):
     if headless:
         options.add_argument('--headless')
         options.add_argument('--disable-gpu')
+    options.timeouts = {'script': 60 * 1e3}
 
     driver_ = browser_config['driver'](service=service, options=options)
 
