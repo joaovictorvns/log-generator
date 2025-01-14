@@ -75,4 +75,5 @@ jobs:
           args: install microsoft-edge
 
       - name: Run tests
-        run: poetry run task test
+        # run: poetry run task test
+        run: poetry run pytest --cov=log_generator -vv

@@ -83,7 +83,10 @@ def driver(request: pytest.FixtureRequest, browser: str):
     if not browser_config:
         raise ValueError(f'Unknown browser: {browser}')
 
-    service = browser_config['service'](browser_config['manager']().install())
+    service = browser_config['service'](
+        browser_config['manager']().install(),
+        timeout=60,
+    )
     options = browser_config['options']()
     if headless:
         options.add_argument('--headless')
