@@ -47,7 +47,7 @@ def api_route():  # pylint: disable=inconsistent-return-statements
         case 'POST':
             response = handle_post_request()
 
-    if current_app.config.LOG_HEADERS:
+    if current_app.config['LOG_HEADERS']:
         extra = {
             'client_ip': request.headers.get('X-Real-IP', request.remote_addr),
             'protocol': request.headers.get('X-Forwarded-Proto', 'http'),
@@ -70,11 +70,11 @@ def handle_get_request():
     configuration and returns them in a JSON response.
     """
     levels = ('debug', 'info', 'warning', 'error', 'critical')
-    log_level_name = current_app.config.LOG_LEVEL.lower()
+    log_level = current_app.config['LOG_LEVEL'].lower()
 
     data = {
-        'log_level_name': log_level_name,
-        'log_level_number': levels.index(log_level_name) + 1,
+        'log_level_name': log_level,
+        'log_level_number': levels.index(log_level) + 1,
     }
 
     return jsonify(data), 200
@@ -88,6 +88,8 @@ def handle_post_request():
     "message", and optionally "extra". If validation fails, an error message
     is returned. It then returns a JSON response indicating success or error.
     """
+    levels = ('debug', 'info', 'warning', 'error', 'critical')
+    log_level = current_app.config['LOG_LEVEL'].lower()
     try:
         if not request.json:
             raise ValueError(ERROR_MESSAGES[0])
@@ -105,14 +107,19 @@ def handle_post_request():
         if level not in {'debug', 'info', 'warning', 'error', 'critical'}:
             raise ValueError(ERROR_MESSAGES[3].format(level=level))
 
-        if message is None:
-            raise ValueError(ERROR_MESSAGES[4])
+        if levels.index(level) < levels.index(log_level):
+            raise ValueError(
+                ERROR_MESSAGES[4].format(level=level, log_level=log_level)
+            )
 
-        if not isinstance(message, str):
+        if message is None:
             raise ValueError(ERROR_MESSAGES[5])
 
-        if extra is not None and not isinstance(extra, dict):
+        if not isinstance(message, str):
             raise ValueError(ERROR_MESSAGES[6])
+
+        if extra is not None and not isinstance(extra, dict):
+            raise ValueError(ERROR_MESSAGES[7])
 
         getattr(logger, level)(msg=message, extra=extra)
 

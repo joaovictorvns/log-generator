@@ -41,7 +41,7 @@ def app():
     return create_app()
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='session')
 def simple_live_server(app: Flask):
     simple_live_server_ = SimpleLiveServer(app)
     simple_live_server_.start()

@@ -9,6 +9,7 @@ ERROR_MESSAGES = [
         'Valid values are: "debug", "info", "warning", '
         '"error" and "critical"'
     ),
+    'Log level "{level}" is below the configured log level "{log_level}".',
     'The "message" field is required',
     'The "message" field must be a str',
     'The "extra" field must be a dict',

@@ -66,6 +66,25 @@ def test_api_route_post_invalid_log_level(client: FlaskClient):
     assert response.json == expected_response_data
 
 
+def test_api_route_post_level_is_below_the_configured_log_level(
+        app: Flask, client: FlaskClient
+):
+    log_level = app.config['LOG_LEVEL']
+    app.config['LOG_LEVEL'] = 'INFO'
+
+    request_data = {'level': 'debug'}
+    response = client.post('/api', json=request_data)
+    assert response.status_code == http.HTTPStatus.BAD_REQUEST
+
+    expected_response_data = {
+        'message': 'error',
+        'error': ERROR_MESSAGES[4].format(level='debug', log_level='info'),
+    }
+    app.config['LOG_LEVEL'] = log_level
+
+    assert response.json == expected_response_data
+
+
 def test_api_route_post_message_field_is_required(
     app: Flask, client: FlaskClient
 ):
@@ -75,7 +94,7 @@ def test_api_route_post_message_field_is_required(
 
     expected_response_data = {
         'message': 'error',
-        'error': ERROR_MESSAGES[4],
+        'error': ERROR_MESSAGES[5],
     }
 
     assert response.json == expected_response_data
@@ -90,7 +109,7 @@ def test_api_route_post_message_field_must_be_a_str(
 
     expected_response_data = {
         'message': 'error',
-        'error': ERROR_MESSAGES[5],
+        'error': ERROR_MESSAGES[6],
     }
 
     assert response.json == expected_response_data
@@ -109,7 +128,7 @@ def test_api_route_post_extra_field_must_be_a_dict(
 
     expected_response_data = {
         'message': 'error',
-        'error': ERROR_MESSAGES[6],
+        'error': ERROR_MESSAGES[7],
     }
 
     assert response.json == expected_response_data
