@@ -4,8 +4,10 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
+    # Flask
       - FLASK_APP=${FLASK_APP}
       - FLASK_DEBUG=False
+    # Logging
       - FLASK_LOG_PATH=/var/log/log-generator
       - FLASK_LOG_LEVEL=WARNING
       - FLASK_LOG_HEADERS=True

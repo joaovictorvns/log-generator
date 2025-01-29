@@ -25,8 +25,8 @@ from flask import Blueprint, current_app, jsonify, request
 
 from log_generator.controller.api_utils import ERROR_MESSAGES, SUCCESS_MESSAGE
 
-api_blueprint = Blueprint('api', __name__)
 logger = logging.getLogger(__name__)
+api_blueprint = Blueprint('api', __name__)
 
 
 @api_blueprint.route('/api', methods=['GET', 'POST'])
